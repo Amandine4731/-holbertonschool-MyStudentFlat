@@ -12,7 +12,10 @@ class ComponentPicturesFullScreen extends StatelessWidget {
       body: Stack(
         children: [
           Center(
-            child: ComponentPicturesCarousel(),
+            child: SizedBox(
+              height: 290, // Ajuster la hauteur ici
+              child: ComponentPicturesCarousel(),
+            ),
           ),
           Positioned(
             top: 125,

@@ -19,8 +19,9 @@ class PageDescription extends StatelessWidget {
     return Scaffold(
       backgroundColor: colorBeige,
       appBar: PreferredSize(
-        preferredSize:
-            Size.fromHeight(90), // Define the height of the custom app bar
+        preferredSize: Size.fromHeight(
+          70,
+        ), // Define the height of the custom app bar
         child: ComponentNavigationAppbar(),
       ),
       bottomNavigationBar: ComponentNavigationBottomappbar(),
@@ -101,7 +102,7 @@ class PageDescription extends StatelessWidget {
                             },
                             child: SizedBox(
                               width: double.infinity,
-                              height: 210,
+                              height: 250,
                               child: ComponentPicturesCarousel(),
                             ),
                           ),
@@ -242,8 +243,8 @@ class PageDescription extends StatelessWidget {
                                 'Description :',
                                 textAlign: TextAlign.left,
                                 style: GoogleFonts.lato(
-                                  fontWeight: FontWeight.w600,
-                                  color: colorOrange,
+                                  fontWeight: FontWeight.w800,
+                                  color: colorDarkgrey,
                                   fontSize: 16,
                                 ),
                               ),
@@ -279,7 +280,7 @@ class PageDescription extends StatelessWidget {
                                     style: ButtonStyle(
                                       backgroundColor:
                                           MaterialStateProperty.all<Color>(
-                                              colorGrey),
+                                              colorOrange),
                                       shape: MaterialStateProperty.all<
                                           RoundedRectangleBorder>(
                                         RoundedRectangleBorder(

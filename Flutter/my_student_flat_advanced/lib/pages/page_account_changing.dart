@@ -24,7 +24,7 @@ class _PageAccountChangingState extends State<PageAccountChanging> {
       backgroundColor: colorBeige,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(
-            90), // Définir la hauteur de la barre d'app personnalisée
+            70), // Définir la hauteur de la barre d'app personnalisée
         child: ComponentNavigationAppbar(),
       ),
       bottomNavigationBar: ComponentNavigationBottomappbar(),

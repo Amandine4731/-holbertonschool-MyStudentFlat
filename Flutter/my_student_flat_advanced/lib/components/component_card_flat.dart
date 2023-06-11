@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:my_student_flat_4/components/component_pictures_carousel.dart';
 import 'package:my_student_flat_4/main.dart';
 import 'package:my_student_flat_4/pages/page_description.dart';
+import 'package:my_student_flat_4/API/request_values.dart';
 
 class ComponentCardFlat extends StatefulWidget {
   const ComponentCardFlat({Key? key}) : super(key: key);
@@ -14,8 +15,7 @@ class ComponentCardFlat extends StatefulWidget {
 class _ComponentCardFlatState extends State<ComponentCardFlat> {
   bool isFavoriteOn = false;
 
-  @override
-  Widget build(BuildContext context) {
+  Widget componentFavoriteCardFlat() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
@@ -68,16 +68,11 @@ class _ComponentCardFlatState extends State<ComponentCardFlat> {
                     IconButton(
                       iconSize: 25.0,
                       icon: Icon(
+                        isFavoriteOn ? Icons.favorite : Icons.favorite_border,
                         color: colorOrange,
-                        isFavoriteOn
-                            ? Icons.favorite
-                            : Icons
-                                .favorite_outline, // Changer l'icône de notification en fonction de l'état actuel de isFavoriteOn
                       ),
-                      color: Colors.white,
                       onPressed: () {
                         setState(() {
-                          // Mettre à jour l'état de isFavoriteOn lorsque l'utilisateur clique sur l'icône de notification
                           isFavoriteOn = !isFavoriteOn;
                         });
                       },
@@ -95,41 +90,12 @@ class _ComponentCardFlatState extends State<ComponentCardFlat> {
                   },
                   child: SizedBox(
                     width: double.infinity,
-                    height: 210,
+                    height: 250,
                     child: ComponentPicturesCarousel(),
                   ),
                 ),
                 SizedBox(height: 10),
-                Row(
-                  children: [
-                    Text(
-                      'Roseraie (31500)',
-                      style: GoogleFonts.lato(
-                        fontWeight: FontWeight.w800,
-                        color: colorDarkgrey,
-                        fontSize: 18,
-                      ),
-                    ),
-                    SizedBox(width: 8),
-                    Text(
-                      '-',
-                      style: GoogleFonts.lato(
-                        fontWeight: FontWeight.w800,
-                        color: colorDarkgrey,
-                        fontSize: 18,
-                      ),
-                    ), // Ajouter un espace entre les deux textes
-                    SizedBox(width: 8),
-                    Text(
-                      'Roseraie, Jolimont',
-                      style: GoogleFonts.lato(
-                        fontWeight: FontWeight.w400,
-                        color: colorDarkgrey,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ],
-                ),
+                RequestValues(),
                 SizedBox(height: 5),
                 Row(
                   children: [
@@ -164,7 +130,7 @@ class _ComponentCardFlatState extends State<ComponentCardFlat> {
                         color: colorDarkgrey,
                         fontSize: 20,
                       ),
-                    ), // Ajouter un espace entre les deux textes
+                    ),
                   ],
                 ),
               ],
@@ -173,5 +139,10 @@ class _ComponentCardFlatState extends State<ComponentCardFlat> {
         ),
       ],
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return componentFavoriteCardFlat();
   }
 }

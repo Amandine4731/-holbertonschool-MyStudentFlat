@@ -1,6 +1,8 @@
-import 'package:flutter/material.dart';
+import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:my_student_flat_4/API/request_pictures.dart';
 
 class ComponentPicturesCarousel extends StatefulWidget {
   @override
@@ -9,16 +11,49 @@ class ComponentPicturesCarousel extends StatefulWidget {
 }
 
 class _ComponentPicturesCarouselState extends State<ComponentPicturesCarousel> {
-  final List<String> imageList = [];
+  final List imageList = [];
 
   final PageController _pageController = PageController();
   int _currentIndex = 0;
 
   @override
+  void initState() {
+    super.initState();
+    // Ajouter les images à la liste dans la méthode initState
+
+    final requestPictures = RequestPictures();
+    requestPictures.getImageUrls().then((imageUrls) {
+      setState(() {
+        imageList.addAll(imageUrls);
+      });
+    });
+    /*final requestPicture0 = RequestPicture0();
+    requestPicture0.getImageUrl().then((imageUrl) {
+      setState(() {
+        imageList.add(imageUrl);
+      });
+    });
+    final requestPicture1 = RequestPicture1();
+
+    requestPicture1.getImageUrl().then((imageUrl) {
+      setState(() {
+        imageList.add(imageUrl);
+      });
+    });
+    final requestPicture2 = RequestPicture2();
+
+    requestPicture2.getImageUrl().then((imageUrl) {
+      setState(() {
+        imageList.add(imageUrl);
+      });
+    });*/
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 210,
+      height: 250,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
         boxShadow: [
@@ -47,7 +82,7 @@ class _ComponentPicturesCarouselState extends State<ComponentPicturesCarousel> {
                   width: double.infinity,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      fit: BoxFit.cover,
+                      fit: BoxFit.fill, // Remplit le conteneur avec l'image
                       image: NetworkImage(imageList[index]),
                     ),
                   ),

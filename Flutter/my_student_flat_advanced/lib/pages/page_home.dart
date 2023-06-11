@@ -16,14 +16,24 @@ class PageHome extends StatefulWidget {
 }
 
 class _PageHomeState extends State<PageHome> {
+  int selectedContainerIndex = -1;
   String? selectedValue;
+  bool showFavorites = false;
+
+  List<ComponentCardFlat> myFavorites = [];
+
+  void initState() {
+    super.initState();
+    selectedContainerIndex = 0; // Initialisation du premier conteneur activé
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: colorBeige,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(
-            90), // Définir la hauteur de la barre d'app personnalisée
+            70), // Définir la hauteur de la barre d'app personnalisée
         child: ComponentNavigationHomeAppbar(),
       ),
       bottomNavigationBar: ComponentNavigationBottomappbar(),
@@ -32,7 +42,7 @@ class _PageHomeState extends State<PageHome> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              margin: EdgeInsets.only(top: 20),
+              margin: EdgeInsets.only(top: 0),
               padding: EdgeInsets.only(
                 bottom: 0,
                 top: 0,
@@ -41,6 +51,103 @@ class _PageHomeState extends State<PageHome> {
               ),
               child: Column(
                 children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              selectedContainerIndex = 0;
+                              showFavorites = false;
+                            });
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(5),
+                            height: 50,
+                            width: MediaQuery.of(context).size.width / 2.1,
+                            decoration: BoxDecoration(
+                                color: selectedContainerIndex == 0
+                                    ? colorOrange
+                                    : Colors.white,
+                                borderRadius: BorderRadius.only(
+                                  bottomLeft: const Radius.circular(10.0),
+                                  bottomRight: const Radius.circular(10.0),
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.1),
+                                    spreadRadius: 0,
+                                    blurRadius: 5,
+                                    offset: Offset(1, 1),
+                                  ),
+                                ]),
+                            child: Align(
+                              alignment: Alignment
+                                  .center, // Align however you like (i.e .centerRight, centerLeft)
+                              child: Text(
+                                'Toutes les annonces',
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.lato(
+                                  fontWeight: FontWeight.w400,
+                                  color: selectedContainerIndex == 0
+                                      ? Colors.white
+                                      : colorOrange,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              selectedContainerIndex = 1;
+                              showFavorites = true;
+                            });
+                          },
+                          child: Container(
+                            height: 50,
+                            width: MediaQuery.of(context).size.width / 2.1,
+                            decoration: BoxDecoration(
+                                color: selectedContainerIndex == 1
+                                    ? colorOrange
+                                    : Colors.white,
+                                borderRadius: BorderRadius.only(
+                                  bottomLeft: const Radius.circular(10.0),
+                                  bottomRight: const Radius.circular(10.0),
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.1),
+                                    spreadRadius: 0,
+                                    blurRadius: 5,
+                                    offset: Offset(1, 1),
+                                  ),
+                                ]),
+                            child: Align(
+                              alignment: Alignment
+                                  .center, // Align however you like (i.e .centerRight, centerLeft)
+                              child: Text(
+                                'Mes favoris',
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.lato(
+                                  fontWeight: FontWeight.w400,
+                                  color: selectedContainerIndex == 1
+                                      ? Colors.white
+                                      : colorOrange,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 15),
                   DropdownButton<String>(
                     value: selectedValue, // Définir la valeur sélectionnée
                     icon: Icon(
@@ -53,7 +160,6 @@ class _PageHomeState extends State<PageHome> {
                       'Prix par ordre décroissant',
                       'Surface par ordre croissant',
                       'Surface par ordre décroissant',
-                      'Mes favoris',
                     ].map((String item) {
                       return DropdownMenuItem<String>(
                         value: item,
@@ -83,7 +189,18 @@ class _PageHomeState extends State<PageHome> {
                 ],
               ),
             ),
-            ComponentCardFlat(),
+            ComponentCardFlat()
+            /*Column(
+              children: [
+                if (showFavorites && myFavorites.length >= 1)
+                  myFavorites[0]
+                else if (!showFavorites)
+                  ComponentCardFlat()
+
+                // Ajouter ici la logique pour afficher uniquement les cartes avec l'icône de favori activée
+                // Vous pouvez utiliser un ListView.builder ou une autre méthode de filtrage pour cela
+              ],
+            ),*/
           ],
         ),
       ),

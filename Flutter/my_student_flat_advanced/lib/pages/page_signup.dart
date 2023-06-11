@@ -1,13 +1,11 @@
+import 'dart:ffi';
 import 'package:flutter/material.dart';
-
 import 'package:google_fonts/google_fonts.dart';
-
-import 'package:my_student_flat_4/main.dart';
-
-import 'package:my_student_flat_4/pages/page_login.dart';
-import 'package:my_student_flat_4/pages/page_account_creation.dart';
-
+import 'package:http/http.dart' as http;
 import 'package:my_student_flat_4/effects/effect_animation_delayed.dart';
+import 'package:my_student_flat_4/main.dart';
+import 'package:my_student_flat_4/pages/page_home.dart';
+import 'package:my_student_flat_4/pages/page_login.dart';
 
 class PageSignup extends StatefulWidget {
   const PageSignup({Key? key}) : super(key: key);
@@ -19,6 +17,112 @@ class PageSignup extends StatefulWidget {
 class _PageSignupState extends State<PageSignup> {
   bool isTitleVisible = true;
 
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
+
+  String errorMessage = '';
+  bool showError = false;
+
+  @override
+  void initState() {
+    emailController = TextEditingController();
+    passwordController = TextEditingController();
+    confirmPasswordController = TextEditingController();
+    super.initState();
+  }
+
+  Future<int> register() async {
+    String email = emailController.text;
+    String password = passwordController.text;
+    String confirmPassword = confirmPasswordController.text;
+    var url = 'http://152.228.216.105:5002/register';
+
+    var response = await http.post(Uri.parse(url), body: {
+      'mail': email,
+      'password': password,
+      'confirm_password': confirmPassword,
+    });
+
+    if (response.statusCode == 200) {
+      print('Compte créé avec succès');
+      return 200;
+    } else if (response.statusCode == 406) {
+      setState(() {
+        showError = true;
+        errorMessage = 'Ce compte utilisateur existe déjà.';
+      });
+      return response.statusCode;
+    } else if (response.statusCode == 405) {
+      setState(() {
+        showError = true;
+        errorMessage = 'Les mots de passe ne correspondent pas.';
+      });
+      return response.statusCode;
+    } else {
+      setState(() {
+        showError = true;
+        errorMessage = 'Erreur lors de la création du compte.';
+      });
+    }
+    return response.statusCode;
+  }
+
+  void showSuccessDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Compte créé'),
+          content: Text('Votre compte a été créé avec succès.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PageLogin(),
+                  ),
+                );
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void showErrorDialog() async {
+    String errorText = "";
+    final statusCode = await register();
+    if (statusCode == 405) {
+      errorText = "Les mots de passe ne correspondent pas.";
+    } else if (statusCode == 406) {
+      errorText = "Ce compte utilisateur existe déjà.";
+    } else {
+      errorText = "Erreur de création de compte, veuillez réessayer.";
+    }
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Erreur de création de compte'),
+          content: Text(errorText),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,17 +130,17 @@ class _PageSignupState extends State<PageSignup> {
       body: Stack(
         children: <Widget>[
           Container(
-            margin: EdgeInsets.only(bottom: 250), // Marge en bas de 300 pixels
+            margin: EdgeInsets.only(bottom: 250),
             child: Align(
               alignment: Alignment.bottomCenter,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   FractionallySizedBox(
-                    widthFactor:
-                        0.6, // Définit la largeur de l'image à 80% de la largeur de l'écran
+                    widthFactor: 0.6,
                     child: Image.asset(
-                        'assets/elements/logoMyStudentFlatBeige.png'),
+                      'assets/elements/logoMyStudentFlatBeige.png',
+                    ),
                   ),
                   SizedBox(height: 30),
                   Visibility(
@@ -56,9 +160,7 @@ class _PageSignupState extends State<PageSignup> {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(
-              bottom: 160,
-            ),
+            margin: EdgeInsets.only(bottom: 160),
             alignment: Alignment.bottomLeft,
             child: EffectAnimationDelayed(
               delay: 10,
@@ -72,9 +174,7 @@ class _PageSignupState extends State<PageSignup> {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(
-              bottom: 220,
-            ),
+            margin: EdgeInsets.only(bottom: 220),
             alignment: Alignment.bottomRight,
             child: EffectAnimationDelayed(
               delay: 10,
@@ -82,21 +182,16 @@ class _PageSignupState extends State<PageSignup> {
                 width: MediaQuery.of(context).size.width / 2.8,
                 child: Image.asset(
                   'assets/elements/illusBatîmentsTransparentsDroite.png',
-                ), // propriété fit définie sur BoxFit.cover
+                ),
               ),
             ),
           ),
           Container(
             alignment: Alignment.bottomCenter,
             child: SizedBox(
-                width: MediaQuery.of(context).size.width / 0,
-                child: Image.asset('assets/elements/fondMaisonPageLogin.png')),
-          ),
-          Container(
-            alignment: Alignment.bottomCenter,
-            child: SizedBox(
-                width: MediaQuery.of(context).size.width / 0,
-                child: Image.asset('assets/elements/fondMaisonPageLogin.png')),
+              width: MediaQuery.of(context).size.width / 0,
+              child: Image.asset('assets/elements/fondMaisonPageLogin.png'),
+            ),
           ),
           Container(
             margin: EdgeInsets.only(bottom: 110, left: 40, right: 40),
@@ -106,22 +201,17 @@ class _PageSignupState extends State<PageSignup> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 TextField(
+                  controller: emailController,
                   decoration: InputDecoration(
                     labelText: 'Email...',
                     enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: colorDarkgrey),
-                      //  when the TextFormField in unfocused
                     ),
                     focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: colorOrange,
-                        width: 2.0,
-                      ),
-                      //  when the TextFormField in focused
+                      borderSide: BorderSide(color: colorOrange, width: 2.0),
                     ),
                     border: UnderlineInputBorder(
                       borderSide: BorderSide(color: colorGrey),
-                      // color for the border
                     ),
                     labelStyle: GoogleFonts.lato(
                       color: Colors.black.withOpacity(0.4),
@@ -147,6 +237,7 @@ class _PageSignupState extends State<PageSignup> {
                   height: 0,
                 ),
                 TextField(
+                  controller: passwordController,
                   obscureText: true,
                   decoration: InputDecoration(
                     labelStyle: GoogleFonts.lato(
@@ -155,18 +246,12 @@ class _PageSignupState extends State<PageSignup> {
                     labelText: 'Mot de passe...',
                     enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: colorDarkgrey),
-                      //  when the TextFormField in unfocused
                     ),
                     focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: colorOrange,
-                        width: 2.0,
-                      ),
-                      //  when the TextFormField in focused
+                      borderSide: BorderSide(color: colorOrange, width: 2.0),
                     ),
                     border: UnderlineInputBorder(
                       borderSide: BorderSide(color: colorGrey),
-                      // color for the border
                     ),
                   ),
                   style: GoogleFonts.lato(
@@ -189,6 +274,7 @@ class _PageSignupState extends State<PageSignup> {
                   height: 0,
                 ),
                 TextField(
+                  controller: confirmPasswordController,
                   obscureText: true,
                   decoration: InputDecoration(
                     labelStyle: GoogleFonts.lato(
@@ -197,18 +283,12 @@ class _PageSignupState extends State<PageSignup> {
                     labelText: 'Confirmer le mot de passe...',
                     enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: colorDarkgrey),
-                      //  when the TextFormField in unfocused
                     ),
                     focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: colorOrange,
-                        width: 2.0,
-                      ),
-                      //  when the TextFormField in focused
+                      borderSide: BorderSide(color: colorOrange, width: 2.0),
                     ),
                     border: UnderlineInputBorder(
                       borderSide: BorderSide(color: colorGrey),
-                      // color for the border
                     ),
                   ),
                   style: GoogleFonts.lato(
@@ -232,19 +312,17 @@ class _PageSignupState extends State<PageSignup> {
           ),
           Container(
             width: double.infinity,
-            margin: EdgeInsets.only(
-              bottom: 55,
-            ),
+            margin: EdgeInsets.only(bottom: 55),
             child: Align(
               alignment: Alignment.bottomCenter,
               child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => PageAccountCreation(),
-                    ),
-                  ); // action à exécuter lors du clic sur le bouton
+                onPressed: () async {
+                  int statusCode = await register();
+                  if (statusCode == 200) {
+                    showSuccessDialog();
+                  } else {
+                    showErrorDialog();
+                  }
                 },
                 style: ButtonStyle(
                   backgroundColor:
