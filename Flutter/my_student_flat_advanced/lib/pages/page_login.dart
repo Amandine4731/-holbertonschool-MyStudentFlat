@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-
 import 'package:google_fonts/google_fonts.dart';
-
-import 'package:my_student_flat_4/main.dart';
-
-import 'package:my_student_flat_4/pages/page_signup.dart';
-import 'package:my_student_flat_4/pages/page_home.dart';
-
+import 'package:http/http.dart' as http;
 import 'package:my_student_flat_4/effects/effect_animation_delayed.dart';
+import 'package:my_student_flat_4/main.dart';
+import 'package:my_student_flat_4/pages/page_home.dart';
+import 'package:my_student_flat_4/pages/page_signup.dart';
 
 class PageLogin extends StatefulWidget {
   const PageLogin({Key? key}) : super(key: key);
@@ -19,6 +16,75 @@ class PageLogin extends StatefulWidget {
 class _PageLoginState extends State<PageLogin> {
   bool isTitleVisible = true;
 
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+  String errorMessage = '';
+  bool showError = false;
+
+  @override
+  void initState() {
+    emailController = TextEditingController();
+    passwordController = TextEditingController();
+    super.initState();
+  }
+
+  Future<int> login() async {
+    String email = emailController.text;
+    String password = passwordController.text;
+    var url = 'http://152.228.216.105:5002/login';
+
+    var response = await http.post(Uri.parse(url), body: {
+      'mail': email,
+      'password': password,
+    });
+
+    if (response.statusCode == 200) {
+      print('Connexion réussie');
+      return 200;
+    } else if (response.statusCode == 411) {
+      setState(() {
+        showError = true;
+        errorMessage = 'Identifiants invalides.';
+      });
+    } else if (response.statusCode == 412) {
+      setState(() {
+        showError = true;
+        errorMessage = 'Veuillez remplir tous les champs.';
+      });
+    } else {
+      setState(() {
+        showError = true;
+        errorMessage = 'Erreur lors de la connexion.';
+      });
+    }
+    return response.statusCode;
+  }
+
+  void showErrorDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        String errorText = showError
+            ? errorMessage
+            : 'Erreur de connexion, veuillez réessayer ou créer un compte.';
+
+        return AlertDialog(
+          title: Text('Erreur de connexion'),
+          content: Text(errorText),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,17 +92,17 @@ class _PageLoginState extends State<PageLogin> {
       body: Stack(
         children: <Widget>[
           Container(
-            margin: EdgeInsets.only(bottom: 250), // Marge en bas de 300 pixels
+            margin: EdgeInsets.only(bottom: 250),
             child: Align(
               alignment: Alignment.bottomCenter,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   FractionallySizedBox(
-                    widthFactor:
-                        0.6, // Définit la largeur de l'image à 80% de la largeur de l'écran
+                    widthFactor: 0.6,
                     child: Image.asset(
-                        'assets/elements/logoMyStudentFlatBeige.png'),
+                      'assets/elements/logoMyStudentFlatBeige.png',
+                    ),
                   ),
                   SizedBox(height: 30),
                   Visibility(
@@ -56,9 +122,7 @@ class _PageLoginState extends State<PageLogin> {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(
-              bottom: 160,
-            ),
+            margin: EdgeInsets.only(bottom: 160),
             alignment: Alignment.bottomLeft,
             child: EffectAnimationDelayed(
               delay: 10,
@@ -72,9 +136,7 @@ class _PageLoginState extends State<PageLogin> {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(
-              bottom: 220,
-            ),
+            margin: EdgeInsets.only(bottom: 220),
             alignment: Alignment.bottomRight,
             child: EffectAnimationDelayed(
               delay: 10,
@@ -82,40 +144,36 @@ class _PageLoginState extends State<PageLogin> {
                 width: MediaQuery.of(context).size.width / 2.8,
                 child: Image.asset(
                   'assets/elements/illusBatîmentsTransparentsDroite.png',
-                ), // propriété fit définie sur BoxFit.cover
+                ),
               ),
             ),
           ),
           Container(
             alignment: Alignment.bottomCenter,
             child: SizedBox(
-                width: MediaQuery.of(context).size.width / 0,
-                child: Image.asset('assets/elements/fondMaisonPageLogin.png')),
+              width: MediaQuery.of(context).size.width / 0,
+              child: Image.asset('assets/elements/fondMaisonPageLogin.png'),
+            ),
           ),
           Container(
-            margin: EdgeInsets.only(bottom: 150, left: 40, right: 40),
+            margin: EdgeInsets.only(bottom: 110, left: 40, right: 40),
             alignment: Alignment.bottomCenter,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 TextField(
+                  controller: emailController,
                   decoration: InputDecoration(
                     labelText: 'Email...',
                     enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: colorDarkgrey),
-                      //  when the TextFormField in unfocused
                     ),
                     focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: colorOrange,
-                        width: 2.0,
-                      ),
-                      //  when the TextFormField in focused
+                      borderSide: BorderSide(color: colorOrange, width: 2.0),
                     ),
                     border: UnderlineInputBorder(
                       borderSide: BorderSide(color: colorGrey),
-                      // color for the border
                     ),
                     labelStyle: GoogleFonts.lato(
                       color: Colors.black.withOpacity(0.4),
@@ -141,6 +199,7 @@ class _PageLoginState extends State<PageLogin> {
                   height: 0,
                 ),
                 TextField(
+                  controller: passwordController,
                   obscureText: true,
                   decoration: InputDecoration(
                     labelStyle: GoogleFonts.lato(
@@ -149,18 +208,12 @@ class _PageLoginState extends State<PageLogin> {
                     labelText: 'Mot de passe...',
                     enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: colorDarkgrey),
-                      //  when the TextFormField in unfocused
                     ),
                     focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: colorOrange,
-                        width: 2.0,
-                      ),
-                      //  when the TextFormField in focused
+                      borderSide: BorderSide(color: colorOrange, width: 2.0),
                     ),
                     border: UnderlineInputBorder(
                       borderSide: BorderSide(color: colorGrey),
-                      // color for the border
                     ),
                   ),
                   style: GoogleFonts.lato(
@@ -183,42 +236,23 @@ class _PageLoginState extends State<PageLogin> {
             ),
           ),
           Container(
-            padding: EdgeInsets.only(top: 20, bottom: 20),
-            margin: EdgeInsets.only(bottom: 90, right: 40),
-            alignment: Alignment.bottomRight,
-            child: TextButton(
-              onPressed: () {
-                // Ajouter l'action à exécuter lors du tap sur le bouton.
-              },
-              child: Text(
-                'Mot de passe oublié ?',
-                style: GoogleFonts.lato(
-                  fontWeight: FontWeight.w400,
-                  fontStyle: FontStyle.italic,
-                  color: Colors.black,
-                  fontSize: 14,
-                  decoration: TextDecoration.underline,
-                  decorationThickness: 1,
-                  height: 1.5,
-                ),
-              ),
-            ),
-          ),
-          Container(
             width: double.infinity,
-            margin: EdgeInsets.only(
-              bottom: 55,
-            ),
+            margin: EdgeInsets.only(bottom: 55),
             child: Align(
               alignment: Alignment.bottomCenter,
               child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => PageHome(),
-                    ),
-                  );
+                onPressed: () async {
+                  int statusCode = await login();
+                  if (statusCode == 200) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PageHome(),
+                      ),
+                    );
+                  } else {
+                    showErrorDialog();
+                  }
                 },
                 style: ButtonStyle(
                   backgroundColor:
@@ -232,7 +266,7 @@ class _PageLoginState extends State<PageLogin> {
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 60),
                   child: Text(
-                    'Me connecter',
+                    'Se connecter',
                     style: GoogleFonts.lato(
                       fontSize: 18,
                     ),
@@ -255,8 +289,8 @@ class _PageLoginState extends State<PageLogin> {
                 );
               },
               child: Text(
-                'Créer un compte',
-                style: GoogleFonts.lato(
+                "Je n'ai pas de compte",
+                style: GoogleFonts.roboto(
                   fontWeight: FontWeight.w700,
                   color: colorOrange,
                   fontSize: 16,
