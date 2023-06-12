@@ -339,7 +339,7 @@ class _PageAccountChangingState extends State<PageAccountChanging> {
                         padding:
                             EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                         child: Text(
-                          'Enregistrer les modifications',
+                          'Supprimer mon compte',
                           style: GoogleFonts.lato(
                             fontSize: 18,
                           ),
