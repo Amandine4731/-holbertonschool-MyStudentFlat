@@ -1,13 +1,13 @@
 ![MyStudentFlat](https://github.com/Amandine4731/holbertonschool-MyStudentFlat/blob/main/Front-end/my_student_flat_MVP/assets/elements/HeaderReadmeLogo.png?raw=true)
 
 
-<div align="center">This application project is part of a end-of-year project at **Holberton Actual Digital School in Toulouse.</div>
+<div align="center">This application project is part of a end-of-year project at Holberton Actual Digital School in Toulouse.</div>
 
 *****
 
 ### ![MyStudentFlat](https://github.com/Amandine4731/holbertonschool-MyStudentFlat/blob/main/Front-end/my_student_flat_MVP/assets/elements/pictoFlat.png?raw=true) ****Are you a student? Looking for an apartment? This application might interest you!****
 
-My Student Flat is an application mainly intended for the student population of Toulouse. It brings together all the affordable apartments (< €800.00) in the city of Toulouse (31). The goal? To allow all these students to not spend all their time in an intense search for housing.
+My Student Flat is an application mainly intended for the student population of Toulouse. It brings together all the affordable apartments (< 800 €) in the city of Toulouse (31). The goal? To allow all these students to not spend all their time in an intense search for housing.
 
 *****
 
