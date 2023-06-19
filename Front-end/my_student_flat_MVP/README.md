@@ -1,16 +1,4 @@
-![MyStudentFlat](https://github.com/Amandine4731/holbertonschool-MyStudentFlat/blob/amandine/Flutter/my_student_flat_advanced/assets/elements/logoMyStudentFlatOrange.png?raw=true)
-
-*****
-This application project is part of a end-of-year project at **Holberton Actual Digital School** in Toulouse.
-
-### **Are you a student? Looking for an apartment? This application might interest you!**
-Afficher plus
-message.txt
-6 Ko
-﻿
-VALLL34
-valll34
-![MyStudentFlat](https://github.com/Amandine4731/holbertonschool-MyStudentFlat/blob/amandine/Flutter/my_student_flat_advanced/assets/elements/logoMyStudentFlatOrange.png?raw=true)
+![MyStudentFlat](https://github.com/Amandine4731/holbertonschool-MyStudentFlat/blob/main/Front-end/my_student_flat_MVP/assets/elements/logoMyStudentFlatOrange.png?raw=true)
 
 *****
 This application project is part of a end-of-year project at **Holberton Actual Digital School** in Toulouse.
