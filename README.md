@@ -1,20 +1,29 @@
-![MyStudentFlat](https://github.com/Amandine4731/holbertonschool-MyStudentFlat/blob/main/Front-end/my_student_flat_MVP/assets/elements/logoMyStudentFlatOrange.png?raw=true)
+![MyStudentFlat](https://github.com/Amandine4731/holbertonschool-MyStudentFlat/blob/main/Front-end/my_student_flat_MVP/assets/elements/HeaderReadmeLogo.png?raw=true)
+
+
+<div align="center">This application project is part of a end-of-year project at **Holberton Actual Digital School in Toulouse.</div>
 
 *****
-This application project is part of a end-of-year project at **Holberton Actual Digital School** in Toulouse.
 
-### **Are you a student? Looking for an apartment? This application might interest you!**
+### ![MyStudentFlat](https://github.com/Amandine4731/holbertonschool-MyStudentFlat/blob/main/Front-end/my_student_flat_MVP/assets/elements/pictoFlat.png?raw=true) ****Are you a student? Looking for an apartment? This application might interest you!****
+
 My Student Flat is an application mainly intended for the student population of Toulouse. It brings together all the affordable apartments (< €800.00) in the city of Toulouse (31). The goal? To allow all these students to not spend all their time in an intense search for housing.
 
-### **A project, a team**
+*****
+
+### ![MyStudentFlat](https://github.com/Amandine4731/holbertonschool-MyStudentFlat/blob/main/Front-end/my_student_flat_MVP/assets/elements/pictoFlat.png?raw=true) ****A project, a team****
 This application could not exist without the collaboration of two individuals with complementary skills. Amandine Assenat (20 years old) is developing the front-end part, an obvious choice given her background as a graphic designer. Valentin Melia (23 years old) is responsible for creating his own API, which gathers all the apartments in Toulouse. This synergy is the result of this project.
 
 *****
 
-### **Strategically chosen technologies used:**
+### ![MyStudentFlat](https://github.com/Amandine4731/holbertonschool-MyStudentFlat/blob/main/Front-end/my_student_flat_MVP/assets/elements/pictoFlat.png?raw=true) ****Strategically chosen technologies used:****
+
 **Front-end**
+
 - **Flutter (Dart):** The Dart language has advanced features. Flutter has a simple syntax, allowing for the development of an application in two weeks. Flutter has become popular and offers a wide range of resources. It is also suitable for Android and iOS platforms.
+
 **Back-end**
+  
 - **Python:** Python is a simple and readable language. It is known for its clear and concise syntax. Python has a large number of libraries for creating APIs, such as Flask, Django, FastAPI, and CherryPy. These libraries facilitate API development and offer many predefined features.
 - **MySQL:** MySQL is one of the most popular databases in the world, with a large community of developers and contributors providing abundant documentation and active support.
 - **SQLAlchemy:** Enables the connection between web scraping and the database.
@@ -22,7 +31,7 @@ This application could not exist without the collaboration of two individuals wi
 
 *****
 
-### **File tree**
+### ![MyStudentFlat](https://github.com/Amandine4731/holbertonschool-MyStudentFlat/blob/main/Front-end/my_student_flat_MVP/assets/elements/pictoFlat.png?raw=true) ****File tree****
 
 - **AUTHORS:**
 - **README.md:**
@@ -65,13 +74,13 @@ This application could not exist without the collaboration of two individuals wi
 
 *****
 
-### **What does MyStudentFlat look like?**
-*(add photos)*
+### ![MyStudentFlat](https://github.com/Amandine4731/holbertonschool-MyStudentFlat/blob/main/Front-end/my_student_flat_MVP/assets/elements/pictoFlat.png?raw=true) ****What does MyStudentFlat look like?****
+![MyStudentFlat](https://raw.githubusercontent.com/Amandine4731/holbertonschool-MyStudentFlat/main/Front-end/my_student_flat_MVP/assets/elements/mockupApplicationTelephone.png?raw=true)
 
 
-### The repository:
+### ![MyStudentFlat](https://github.com/Amandine4731/holbertonschool-MyStudentFlat/blob/main/Front-end/my_student_flat_MVP/assets/elements/pictoFlat.png?raw=true) ****The repository:****
 ```bash
 $ git clone https://github.com/Amandine4731/holbertonschool-MyStudentFlat.git
 ```
 
-*By Valentin Melia and Amandine Assenat*
+*****
