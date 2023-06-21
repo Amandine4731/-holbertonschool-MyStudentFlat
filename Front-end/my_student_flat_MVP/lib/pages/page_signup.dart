@@ -1,3 +1,4 @@
+/* Create page to signup you */
 import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
@@ -160,20 +161,35 @@ class _PageSignupState extends State<PageSignup> {
               ),
             ),
           ),
-          Container(
-            margin: EdgeInsets.only(bottom: 160),
-            alignment: Alignment.bottomLeft,
-            child: EffectAnimationDelayed(
-              delay: 10,
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width / 1.8,
-                height: 580,
-                child: Image.asset(
-                  'assets/elements/illusBatîmentsTransparentsGauche.png',
+          isTitleVisible == true
+              ? Container(
+                  margin: EdgeInsets.only(bottom: 160),
+                  alignment: Alignment.bottomLeft,
+                  child: EffectAnimationDelayed(
+                    delay: 10,
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width / 1.8,
+                      height: 580,
+                      child: Image.asset(
+                        'assets/elements/illusBatîmentsTransparentsGauche.png',
+                      ),
+                    ),
+                  ),
+                )
+              : Container(
+                  margin: EdgeInsets.only(bottom: 0),
+                  alignment: Alignment.bottomLeft,
+                  child: EffectAnimationDelayed(
+                    delay: 10,
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width / 1.8,
+                      height: 580,
+                      child: Image.asset(
+                        'assets/elements/illusBatîmentsTransparentsGauche.png',
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ),
           Container(
             margin: EdgeInsets.only(bottom: 220),
             alignment: Alignment.bottomRight,

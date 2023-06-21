@@ -1,3 +1,4 @@
+/* Create a component to display pictures bigger */
 import 'package:flutter/material.dart';
 
 import 'package:my_student_flat_MVP/main.dart';

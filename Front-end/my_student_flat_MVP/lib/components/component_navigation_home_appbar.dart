@@ -1,3 +1,4 @@
+/* Create a component navigation top bar to import it in pages */
 import 'package:flutter/material.dart';
 
 import 'package:my_student_flat_MVP/main.dart';
@@ -25,6 +26,7 @@ class _ComponentNavigationHomeAppbarState
               left: 10.0,
             ),
             child: Image.asset(
+              /* logo */
               'assets/elements/logoMyStudentFlatBeige.png',
               fit: BoxFit.fitHeight,
             ),

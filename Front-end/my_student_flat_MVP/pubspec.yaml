@@ -43,6 +43,9 @@ dependencies:
   flutter_login: ^4.1.1
   percent_indicator: ^4.2.3
   url_launcher: ^6.1.11
+  page_transition: ^2.0.9
+
+
 
 
 dev_dependencies:
@@ -74,10 +77,9 @@ flutter:
     - assets/elements/illusBatîmentsTransparentsGauche.png
     - assets/elements/illusBatîmentsTransparentsDroite.png
     - assets/elements/fondMaisonPageLogin.png
-    - assets/pictures/appartement1photo1.jpg
-    - assets/pictures/appartement1photo2.jpg
     - assets/elements/illusBatîmentsTransparents.png
     - assets/elements/notImageFound.jpeg
+    - assets/elements/time.png
     
 
   # An image asset can refer to one or more resolution-specific "variants", see

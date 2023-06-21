@@ -1,3 +1,4 @@
+/* Create a page to delete your account */
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
@@ -24,12 +25,14 @@ class _PageAccountChangingState extends State<PageAccountChanging> {
   TextEditingController passwordController = TextEditingController();
 
   void _onDeleteAccountClicked() {
+    /* Function called when delete account button is clicked */
     setState(() {
       isDeleteAccountClicked = true;
     });
   }
 
   void _onCancelClicked() {
+    /*  Function called when cancel button is clicked */
     setState(() {
       isDeleteAccountClicked = false;
       mailController.clear();
@@ -38,6 +41,7 @@ class _PageAccountChangingState extends State<PageAccountChanging> {
   }
 
   Future<void> _onDeleteConfirmClicked() async {
+    /* Function called when delete confirmation button is clicked */
     String mail = mailController.text;
     String password = passwordController.text;
 
@@ -51,6 +55,7 @@ class _PageAccountChangingState extends State<PageAccountChanging> {
       );
 
       if (response.statusCode == 200) {
+        /* check if Account deleted successfully */
         print('Compte supprimé avec succès : $mail');
         Navigator.pushAndRemoveUntil(
           context,
@@ -58,6 +63,7 @@ class _PageAccountChangingState extends State<PageAccountChanging> {
           (route) => false,
         );
       } else if (response.statusCode == 411) {
+        /* check if email or password are incorrect */
         print("Nom d'utilisateur ou mot de passe incorrect.");
         showDialog(
           context: context,

@@ -1,3 +1,4 @@
+/* Create page to display more informations about the flat */
 import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
@@ -9,7 +10,7 @@ import 'package:my_student_flat_MVP/components/component_pictures_carousel.dart'
 import 'package:my_student_flat_MVP/components/component_pictures_full_screen.dart';
 
 class PageDescription extends StatelessWidget {
-  final Map data;
+  final dynamic data;
 
   const PageDescription({Key? key, required this.data});
 
@@ -55,9 +56,9 @@ class PageDescription extends StatelessWidget {
                         children: [
                           SizedBox(
                             width: double.infinity,
-                            child: data["agency"] == true
+                            child: data['apppartment']["agency"] == true
                                 ? Text(
-                                    data["agency"],
+                                    data['apppartment']["agency"],
                                     style: GoogleFonts.lato(
                                       fontWeight: FontWeight.w400,
                                       color: colorDarkgrey,
@@ -68,9 +69,9 @@ class PageDescription extends StatelessWidget {
                           ),
                           SizedBox(
                             width: double.infinity,
-                            child: data["phoneNumber"] == true
+                            child: data['apppartment']["phonenumber"] == true
                                 ? Text(
-                                    data["phoneNumber"],
+                                    data['apppartment']["phonenumber"],
                                     style: GoogleFonts.lato(
                                       fontWeight: FontWeight.w800,
                                       color: colorDarkgrey,
@@ -87,7 +88,8 @@ class PageDescription extends StatelessWidget {
                                 MaterialPageRoute(
                                   builder: (context) =>
                                       ComponentPicturesFullScreen(
-                                    cardId: data["id"],
+                                    /* Allows you to enlarge the image on tap */
+                                    cardId: data['apppartment']["id"],
                                   ),
                                 ),
                               );
@@ -96,7 +98,7 @@ class PageDescription extends StatelessWidget {
                               width: double.infinity,
                               height: 250,
                               child: ComponentPicturesCarousel(
-                                cardId: data["id"],
+                                cardId: data['apppartment']["id"],
                               ),
                             ),
                           ),
@@ -104,7 +106,7 @@ class PageDescription extends StatelessWidget {
                           SizedBox(
                             width: double.infinity,
                             child: Text(
-                              data["name"],
+                              data['apppartment']["name"],
                               style: GoogleFonts.lato(
                                 fontWeight: FontWeight.w800,
                                 color: colorDarkgrey,
@@ -118,23 +120,24 @@ class PageDescription extends StatelessWidget {
                               Flexible(
                                 child: Wrap(
                                   children: [
-                                    if (data["postalCode"] == true)
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                          right: 7,
-                                        ),
-                                        child: Text(
-                                          data["postalCode"],
-                                          style: GoogleFonts.lato(
-                                            fontWeight: FontWeight.w800,
-                                            color: colorDarkgrey,
-                                            fontSize: 16,
-                                          ),
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                        right: 7,
+                                      ),
+                                      child: Text(
+                                        data['apppartment']["postal_code"]
+                                            .toString(),
+                                        style: GoogleFonts.lato(
+                                          fontWeight: FontWeight.w800,
+                                          color: colorDarkgrey,
+                                          fontSize: 16,
                                         ),
                                       ),
-                                    if (data["address"].isNotEmpty)
+                                    ),
+                                    if (data['apppartment']["address"]
+                                        .isNotEmpty)
                                       Text(
-                                        data["address"],
+                                        data['apppartment']["address"],
                                         style: GoogleFonts.lato(
                                           fontWeight: FontWeight.w400,
                                           color: colorGrey,
@@ -150,27 +153,24 @@ class PageDescription extends StatelessWidget {
                           Row(
                             children: [
                               Expanded(
-                                child: data["squareMeter"].isNotEmpty
-                                    ? Text(
-                                        data["squareMeter"] + ' m²',
-                                        style: GoogleFonts.lato(
-                                          fontWeight: FontWeight.w800,
-                                          color: colorDarkgrey,
-                                          fontSize: 18,
-                                        ),
-                                      )
-                                    : SizedBox.shrink(),
-                              ),
-                              data["price"].isNotEmpty
-                                  ? Text(
-                                      data["price"] + ' € / mois',
-                                      style: GoogleFonts.lato(
-                                        fontWeight: FontWeight.w800,
-                                        color: colorDarkgrey,
-                                        fontSize: 18,
-                                      ),
-                                    )
-                                  : SizedBox.shrink(),
+                                  child: Text(
+                                data['apppartment']["square_meter"].toString() +
+                                    ' m²',
+                                style: GoogleFonts.lato(
+                                  fontWeight: FontWeight.w800,
+                                  color: colorDarkgrey,
+                                  fontSize: 18,
+                                ),
+                              )),
+                              Text(
+                                data['apppartment']["price"].toString() +
+                                    ' € / mois',
+                                style: GoogleFonts.lato(
+                                  fontWeight: FontWeight.w800,
+                                  color: colorDarkgrey,
+                                  fontSize: 18,
+                                ),
+                              )
                             ],
                           ),
                         ],
@@ -202,7 +202,7 @@ class PageDescription extends StatelessWidget {
                             children: [
                               SizedBox(width: 5),
                               Text(
-                                data["reference"],
+                                data['apppartment']["ref"],
                                 style: GoogleFonts.lato(
                                   fontWeight: FontWeight.w900,
                                   color: colorDarkgrey,
@@ -240,11 +240,11 @@ class PageDescription extends StatelessWidget {
                               ),
                               SizedBox(height: 8),
                               Text(
-                                data["description"],
+                                data['apppartment']["description"],
                                 textAlign: TextAlign.left,
                                 style: GoogleFonts.lato(
                                   fontWeight: FontWeight.w400,
-                                  color: colorDarkgrey,
+                                  color: colorGrey,
                                   fontSize: 16,
                                 ),
                               ),
@@ -258,14 +258,17 @@ class PageDescription extends StatelessWidget {
                                   alignment: Alignment.bottomCenter,
                                   child: ElevatedButton(
                                     onPressed: () async {
-                                      final String url = data["urlAgency"];
-                                      Uri uri = Uri.parse(url);
+                                      final String url = data['apppartment'][
+                                          "url"]; /* Get the URL from the data */
+                                      Uri uri = Uri.parse(
+                                          url); /* Parse the URL into a Uri object */
+
                                       if (await launchUrl(uri)) {
+                                        /* Check if the URL can be launched */
                                         await launchUrl(
-                                          uri,
-                                        );
+                                            uri); /* Launch the URL */
                                       } else {
-                                        throw 'Impossible d\'ouvrir l\'URL : $url';
+                                        throw 'Impossible d\'ouvrir l\'URL : $url'; /* Throw an error if the URL cannot be opened */
                                       }
                                     },
                                     style: ButtonStyle(

@@ -1,3 +1,4 @@
+/* Create page to login you */
 import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
@@ -7,7 +8,7 @@ import 'package:my_student_flat_MVP/effects/effect_animation_delayed.dart';
 
 import 'package:my_student_flat_MVP/main.dart';
 
-import 'package:my_student_flat_MVP/pages/page_home1.dart';
+import 'package:my_student_flat_MVP/pages/page_home.dart';
 import 'package:my_student_flat_MVP/pages/page_signup.dart';
 
 class PageLogin extends StatefulWidget {
@@ -125,20 +126,35 @@ class _PageLoginState extends State<PageLogin> {
               ),
             ),
           ),
-          Container(
-            margin: EdgeInsets.only(bottom: 160),
-            alignment: Alignment.bottomLeft,
-            child: EffectAnimationDelayed(
-              delay: 10,
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width / 1.8,
-                height: 580,
-                child: Image.asset(
-                  'assets/elements/illusBatîmentsTransparentsGauche.png',
+          isTitleVisible == true
+              ? Container(
+                  margin: EdgeInsets.only(bottom: 160),
+                  alignment: Alignment.bottomLeft,
+                  child: EffectAnimationDelayed(
+                    delay: 10,
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width / 1.8,
+                      height: 580,
+                      child: Image.asset(
+                        'assets/elements/illusBatîmentsTransparentsGauche.png',
+                      ),
+                    ),
+                  ),
+                )
+              : Container(
+                  margin: EdgeInsets.only(bottom: 0),
+                  alignment: Alignment.bottomLeft,
+                  child: EffectAnimationDelayed(
+                    delay: 10,
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width / 1.8,
+                      height: 580,
+                      child: Image.asset(
+                        'assets/elements/illusBatîmentsTransparentsGauche.png',
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ),
           Container(
             margin: EdgeInsets.only(bottom: 220),
             alignment: Alignment.bottomRight,
@@ -248,10 +264,24 @@ class _PageLoginState extends State<PageLogin> {
                 onPressed: () async {
                   int statusCode = await login();
                   if (statusCode == 200) {
+                    /*onPressed: () async {
+                  int statusCode = await login();
+                  if (statusCode == 200) {
+                    
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => PageHome1(),
+                        builder: (context) => PageHome(),
+                      ),
+                    );
+                  } else {
+                    showErrorDialog();
+                  }
+                },*/
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PageHome(),
                       ),
                     );
                   } else {

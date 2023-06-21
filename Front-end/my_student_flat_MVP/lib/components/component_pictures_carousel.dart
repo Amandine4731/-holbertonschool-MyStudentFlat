@@ -1,3 +1,4 @@
+/* Create a component carousel with pictures of the flat */
 import 'package:flutter/material.dart';
 
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -24,7 +25,8 @@ class _ComponentPicturesCarouselState extends State<ComponentPicturesCarousel> {
   @override
   void initState() {
     super.initState();
-    final requestPictures = RequestPictures(id: 1);
+    final requestPictures = RequestPictures(
+        id: 1); /* Retrieve image URLs using the RequestPictures class */
     requestPictures.getImageUrls(widget.cardId).then((imageUrls) {
       setState(() {
         imageList.addAll(imageUrls);
@@ -54,6 +56,7 @@ class _ComponentPicturesCarouselState extends State<ComponentPicturesCarousel> {
         child: Stack(
           children: [
             PageView.builder(
+              /* Create the carousel */
               controller: _pageController,
               onPageChanged: (index) {
                 setState(() {
@@ -66,7 +69,7 @@ class _ComponentPicturesCarouselState extends State<ComponentPicturesCarousel> {
                   width: double.infinity,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      fit: BoxFit.fill,
+                      fit: BoxFit.cover,
                       image: NetworkImage(imageList[index]),
                     ),
                   ),

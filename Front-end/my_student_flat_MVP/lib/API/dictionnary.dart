@@ -1,30 +1,19 @@
+/* Create function to retrieve Dagta from API */
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 
-void main() async {
-  var urlStatusCode = 200;
-  var id = 0;
-
-  for (id = 1; urlStatusCode == 200; id++) {
-    var url = Uri.parse("http://152.228.216.105/appartment/$id");
-    var response = await http.get(url);
-    urlStatusCode = response.statusCode;
-
-    if (urlStatusCode != 200) {
-      continue;
-    }
-
-    fetchData(id);
-  }
-}
-
 Future<Map<String, dynamic>> fetchData(int id) async {
-  final url = Uri.parse('http://152.228.216.105/appartment/$id');
-  var response = await http.get(url);
+  /* Function to fetch data from the server based on an ID */
+  final url = Uri.parse(
+      'http://152.228.216.105/appartment/$id'); /* Define the URL for the request */
+  var response =
+      await http.get(url); /* Send a GET request to the specified URL */
   if (response.statusCode == 200) {
-    var jsonResponse = json.decode(response.body);
+    /* Check the response status code */
+    var jsonResponse = json.decode(response.body); /* Parse the JSON response */
     var data = {
+      /* Extract the required data from the JSON response and store it in a map */
       "appartment": {
         "address": jsonResponse["apppartment"]["address"],
         "agency": jsonResponse["apppartment"]["agency"],

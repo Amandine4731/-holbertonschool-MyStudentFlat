@@ -1,8 +1,9 @@
+/* Create a component navigation bottom bar to import it in pages */
 import 'package:flutter/material.dart';
 
 import 'package:my_student_flat_MVP/main.dart';
 
-import 'package:my_student_flat_MVP/pages/page_home1.dart';
+import 'package:my_student_flat_MVP/pages/page_home.dart';
 import 'package:my_student_flat_MVP/pages/page_delete_account.dart';
 
 class ComponentNavigationBottomappbar extends StatefulWidget {
@@ -25,18 +26,20 @@ class _ComponentNavigationBottomappbarState
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           IconButton(
+            /* Home button */
             icon: Icon(Icons.home_rounded),
             color: Colors.white,
             onPressed: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => PageHome1(),
+                  builder: (context) => PageHome(),
                 ),
               );
             },
           ),
           IconButton(
+            /* Account button */
             icon: Icon(Icons.account_circle_rounded),
             color: Colors.white,
             onPressed: () {

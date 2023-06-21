@@ -1,5 +1,5 @@
+/* main page to run the app */
 import 'package:flutter/material.dart';
-
 import 'package:my_student_flat_MVP/pages/page_login.dart';
 
 const colorOrange = Color(0xFFFF5A47);
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Interface Application MyStudentFlat',
+      title: 'MyStudentFlat',
       debugShowCheckedModeBanner: false,
       home: PageLogin(),
     );
