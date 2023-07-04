@@ -1,5 +1,9 @@
+import http
+import os
+import shutil
 import requests, time
 from bs4 import BeautifulSoup
+import urllib3
 
 def get_number_pages():
     """ get the number of existing pages """
@@ -9,6 +13,7 @@ def get_number_pages():
     links = soup.find("ol") # Get <ol> balise in HTML of the pages
     page_number = links.text # Get just the text in all <ol><li>
     list_page_number = [int(num) for num in page_number.split()] # Append in a list just the number without whitespace
+    print(list_page_number)
     return max(list_page_number) # Get the max number of the list
 
 def get_allPages():
@@ -23,6 +28,7 @@ def get_allPages():
         for baliseHTML in allFlat: # loop who iterate in the html page and select all url of all Flats on the page
             url = baliseHTML.find("a", {"class": "gallery-container"}).get("href") # retrives all urls
             all_urls.append("https://fr.foncia.com" + url) # append and create url in the list
+        print(all_urls)
     return all_urls # return all urls in a list
 
 def get_element(pageHTML, className, element_target):
@@ -30,3 +36,24 @@ def get_element(pageHTML, className, element_target):
     balise_before_info = Part_HTML.find('span', string=element_target).previous_element if Part_HTML.find('span', string=element_target) else None
     if balise_before_info:
         return balise_before_info.next_sibling.text.strip()
+
+def save_picture(pictures, Ref):
+    print(pictures[0])
+    pictures_links = []
+    i = 0
+    for picture_url in list(pictures):
+        i += 1
+        
+        file_name = f"{Ref}_{i}.jpg"
+        path = f"./pictures/{Ref}"
+        if (not os.path.exists(path)):
+            os.makedirs(path)
+        with open(f"{path}/{file_name}", 'wb') as file:
+            print("Image ajouté: " + picture_url)
+            r = requests.get(picture_url, stream=True)
+            r = r.raw
+        
+            shutil.copyfileobj(r, file)
+            pictures_links.append(f"{file_name}")
+            file_name = ""
+    return pictures_links
