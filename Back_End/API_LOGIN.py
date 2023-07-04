@@ -130,19 +130,3 @@ def get_allAccount():
 
 if __name__ == "__main__":
     app.run()
-
-
-"""
-@app.route("/logout", methods=["POST"])
-def logout():
-    d = {}
-    user = session.query(User).filter_by(id=User.get_id(user), authentificated=True)
-    if user:
-        user.authentificated = False
-        session.add(user)
-        session.commit()
-        d["status"] = 34
-        return jsonify({"message": "Déconnexion réussie", d: d["status"]})
-    else:
-        abort(412, description="L'utilsateur n'est pas connecter.")  # Authentication error
-"""

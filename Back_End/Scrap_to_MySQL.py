@@ -4,18 +4,16 @@ from selenium.webdriver.chrome.options import Options # Importation du module Se
 import datetime
 import requests
 from bs4 import BeautifulSoup
-from sqlalchemy import create_engine, inspect
+from sqlalchemy import create_engine, inspect, desc
 from sqlalchemy.orm import sessionmaker, scoped_session
 from models.Tables import Appartment, Pictures, Base, AdditionalSurfaces, Amenities, BuildingCharacteristics, LeaseRentCharges, PropertyCharacteristics
-from Scrap_engine import get_allPages, get_element
+from Scrap_engine import get_allPages, get_element, save_picture
 import json
 from sys import argv
 
+
 # Selenium and Chrome Driver options
-chrome_options = Options()
-chrome_options.add_argument('--headless')
-chrome_options.add_argument('--no-sandbox')
-chrome_options.add_argument('--disable-dev-shm-usage')
+
 
 # SQLAlchemy
 engine = create_engine('mysql+mysqlconnector://root:root@localhost:3306/MystudentFlat_test') # Connect to MystudentFlat
@@ -25,111 +23,111 @@ if not inspector.has_table('appartment'): # if database exist no create
 sessfactory = sessionmaker(bind=engine) # Create factory session to connect the DB
 session = scoped_session(sessfactory) # Creating a "scoped" session that will automatically manage connections based on the context of use
 
-def get_table_informations(url, session, pageHTML):
+def get_table_appartment(url, session, pageHTML):
     """ Get flat informations """
     Flat = pageHTML.find('div', {'class': 'card'}) # Find all annonce elements on the Flat page
-    
-    # Name
-    # Extract the text of the first <h1> element with class "section-title", or set Name to None if no html is found
-    Name = Flat.find("h1", {"class": "section-title"}).text if Flat.find("h1", {"class": "section-title"}) else None
-    
-    # Description
-    # Extract the text of the first <p> element with class "section-description", or set Description to None if no html is found
-    Description = Flat.select_one('p.section-description').text if Flat.select_one('p.section-description') else None
-
-    # Price
-    Price = get_element(pageHTML, className="rent-lease", element_target="Loyer charges comprises") if True else None
-    Price = float(Price.split()[0])
-
-    # Ref
-    # Extract the text of the first <p> element with class "section-reference", or set Ref to None if no html is found
-    Ref = Flat.select_one('p.section-reference').text if Flat.select_one('p.section-reference') else None
-
-    # Square meter
-    # Extract the numeric value (1234 without m²) from the text content of the element, or set Square_meter to None if no html is found
-    surface = Flat.select_one('div.surface') # Find the first <div> element with class "surface"
-    Square_meter = float(surface.text.replace(',', '.').split(' ')[0]) if surface else None 
-
-    # Adress
-    Location = Flat.find('p', {'class': 'location'})
-    # Extract the text of the first <span> element with class "p-mb-2", or set address to None if no html is found
-    address = Location.select_one('span.p-mb-2').text if Location.select_one('span.p-mb-2') else None
-    # Extract the text of the first <span> element with class "zipcode", or set postal to None if no html is found
-    postalcode = Location.select_one('span.zipcode').text if Location.select_one('span.zipcode') else None
-
-    # Agency
-    # Extract the text of the first <p> <a> element with class "agency-card-agency-name", or set agence to None if no html is found
-    agence = pageHTML.select_one('p.agency-card-agency-name a').text if pageHTML.select_one('p.agency-card-agency-name a') else None
-
-    # Phone Number
-    chrome_options.add_argument("window-size=1800x1200")
-    driver = webdriver.Chrome(options=chrome_options) # Instance of Chrome driver
-    driver.get(url) # Open webpage
     try:
-        driver.find_element(By.CLASS_NAME, "agency-card-contact").click()
-        driver.find_element(By.CLASS_NAME, "agency-card-contact-buttons").find_element(By.CLASS_NAME, "show-button").click()
-        if driver.find_element(By.CLASS_NAME, "show-button").text:
-            PhoneNumber = driver.find_element(By.CLASS_NAME, "show-button").text
-        else:
-            PhoneNumber = None
+        # Name
+        # Extract the text of the first <h1> element with class "section-title", or set Name to None if no html is found
+        Name = Flat.find("h1", {"class": "section-title"}).text if Flat.find("h1", {"class": "section-title"}) else None
+        
+        # Description
+        # Extract the text of the first <p> element with class "section-description", or set Description to None if no html is found
+        Description = Flat.select_one('p.section-description').text if Flat.select_one('p.section-description') else None
+
+        # Price
+        Price = get_element(pageHTML, className="rent-lease", element_target="Loyer charges comprises") if True else None
+        Price = float(Price.split()[0])
+
+        # Ref
+        # Extract the text of the first <p> element with class "section-reference", or set Ref to None if no html is found
+        Ref = Flat.select_one('p.section-reference').text if Flat.select_one('p.section-reference') else None
+
+        # Square meter
+        # Extract the numeric value (1234 without m²) from the text content of the element, or set Square_meter to None if no html is found
+        surface = Flat.select_one('div.surface') # Find the first <div> element with class "surface"
+        Square_meter = float(surface.text.replace(',', '.').split(' ')[0]) if surface else None 
+
+        # Adress
+        Location = Flat.find('p', {'class': 'location'})
+        # Extract the text of the first <span> element with class "p-mb-2", or set address to None if no html is found
+        address = Location.select_one('span.p-mb-2').text if Location.select_one('span.p-mb-2') else None
+        # Extract the text of the first <span> element with class "zipcode", or set postal to None if no html is found
+        postalcode = Location.select_one('span.zipcode').text if Location.select_one('span.zipcode') else None
+
+        # Agency
+        # Extract the text of the first <p> <a> element with class "agency-card-agency-name", or set agence to None if no html is found
+        agence = pageHTML.select_one('p.agency-card-agency-name a').text if pageHTML.select_one('p.agency-card-agency-name a') else None
+        # Phone Number
+        chrome_options = Options()
+        chrome_options.add_argument('--headless')
+        chrome_options.add_argument('--no-sandbox')
+        chrome_options.add_argument('--disable-dev-shm-usage')
+        chrome_options.add_argument("window-size=1800x1200")
+        driver = webdriver.Chrome(options=chrome_options) # Instance of Chrome driver
+        driver.get(url) # Open webpage
+        try:
+            driver.find_element(By.CLASS_NAME, "agency-card-contact").click()
+            driver.find_element(By.CLASS_NAME, "agency-card-contact-buttons").find_element(By.CLASS_NAME, "show-button").click()
+            if driver.find_element(By.CLASS_NAME, "show-button").text:
+                PhoneNumber = driver.find_element(By.CLASS_NAME, "show-button").text
+            else:
+                PhoneNumber = None
+        except:
+                PhoneNumber = None
+        driver.quit()
     except:
-            PhoneNumber = None
-    driver.quit()
+        print("l'url n'a pas fonctionné")
+        pass
 
     # Created_at
     created_at = datetime.datetime.now()
     # Add element to the DB with SQLAlchemy
-    appart_table = Appartment(name=Name, description=Description, price=Price, ref=Ref, square_meter=Square_meter, address=address, postal_code=postalcode, url=url, agency=agence, phonenumber=PhoneNumber, created_at=created_at) # Create an instance of Appartement 
+    appart_table = Appartment(name=Name, description=Description, price=Price, ref=Ref, square_meter=Square_meter, address=address, postal_code=postalcode, url=url, agency=agence, phonenumber=None, created_at=created_at) # Create an instance of Appartement 
     session.add(appart_table) # add appart to the current session
     session.commit()
-    get_table_picture(session, pageHTML, appart_table) # Function thah get all pictures    
-    print("pictures")
+    get_table_picture(session, pageHTML, appart_table, Ref=Ref) # Function thah get all pictures    
     get_table_additionalsurfaces(pageHTML, session, appart_table)
-    print("additional")
     get_table_amenities(pageHTML, session, appart_table)
-    print("amenities")
     get_table_building_charac(pageHTML, session, appart_table)
-    print("buildingcharac")
     get_table_lease_rent(pageHTML, session, appart_table)
-    print("rent")
     get_table_PropertyCharac(pageHTML, session, appart_table)
-    print("property")
 
-def get_table_picture(session, pageHTML, appart_table):
+def get_table_picture(session, pageHTML, appart_table, Ref):
     """ Get all pictures"""
     JSONpicture = []
-    PictureSection = pageHTML.find("div", {"class", "card"})
+    PictureSection = pageHTML.find("div", {"class", "card"}) # Save class card in variable PictureSection
 
-    imgHTML = PictureSection.find_all("img", class_="photo")
-    if len(imgHTML) != 0:
-        srcFirstImage = imgHTML[0]["src"]
-        response = requests.get(srcFirstImage)
-        if response.status_code != 500:
+    imgHTML = PictureSection.find_all("img", class_="photo") # Save all "img" in the variable imgHTML
+    if len(imgHTML) != 0: # if picture exist
+        srcFirstImage = imgHTML[0]["src"] # store the url picture in srcFirstImage
+        response = requests.get(srcFirstImage) # take the status code
+        if response.status_code != 500: # if picture have link but dosen't work
             JSONpicture.append(srcFirstImage)
         
-        if len(imgHTML) > 1:
+        if len(imgHTML) > 1: # if imgHTML have most thant 1 one picture
             src2ndImage = imgHTML[1]["src"] 
             response = requests.get(src2ndImage)
             if response.status_code != 500:
                 JSONpicture.append(src2ndImage)
         
-        if len(imgHTML) > 2:
+        if len(imgHTML) > 2: # if imgHTML have most thant 2 one picture
             src3rdImage = imgHTML[2]["src"] 
             response = requests.get(src3rdImage)
             if response.status_code != 500:
                 JSONpicture.append(src3rdImage)
+    else: # if picture dosen't exist give a "Picture not found"
+        JSONpicture.append("https://www.charlotteathleticclub.com/assets/camaleon_cms/image-not-found-4a963b95bf081c3ea02923dceaeb3f8085e1a654fc54840aac61a57a60903fef.png")
+    JSONpicture = json.dumps(JSONpicture) # 
+    URL_picture = save_picture(pictures=json.loads(JSONpicture), Ref=Ref) # Function that download all picture in respective file
+    URL_picture = json.dumps(URL_picture)
     
-    else:
-        JSONpicture.append("")
-    print(JSONpicture)
-    JSONpicture = json.dumps(JSONpicture)
-    
-    table_picture = Pictures(flat_id=appart_table.id, URL_picture=JSONpicture)
-    session.add(table_picture)
+    table_picture = Pictures(flat_id=appart_table.id, URL_picture=URL_picture) # Create instance of Picture
+    session.add(table_picture) # add Picture instance
 
 def get_table_additionalsurfaces(pageHTML, session, appart_table):
     """ get additional surfaces """
-    parking = get_element(pageHTML, className="annexes", element_target="Parking privé") if True else None
+    parking = get_element(pageHTML, className="annexes", element_target="Parking privé") if True else None # Function that get elements needed
     cellar = get_element(pageHTML, className="annexes", element_target="Cave(s)") if True else None
     table_additonal_surface = AdditionalSurfaces(flat_id=appart_table.id, Private_parking=parking, Cellar=cellar)
     session.add(table_additonal_surface)
@@ -191,43 +189,99 @@ def get_table_PropertyCharac(pageHTML, session, appart_table):
     propertyCharac_table = PropertyCharacteristics(flat_id=appart_table.id, Floor=Floor, Total_area=Total_area, Living_area=Living_area, Number_of_rooms=Number_of_rooms, Number_of_bedrooms=Number_of_bedrooms, Number_of_bathrooms=Number_of_bathrooms, Hot_water_system=Hot_water_system, Heating_system=Heating_system, Double_glazing=Double_glazing)
     session.add(propertyCharac_table)
 
+def api_to_sql_Orpi(index):
+        response = requests.get("https://www.orpi.com/recherche/ajax/rent?realEstateTypes%5B%5D=appartement&locations%5B0%5D%5Bvalue%5D=toulouse&locations%5B0%5D%5Blabel%5D=Toulouse+(31000)&maxPrice=800&sort=date-up&layoutType=mixte&recentlySold=false").json()
+        
+        try:
+            data = response["items"][index]
+        except IndexError:
+            print("Erreur : Index en dehors de la plage valide.")
+            return
+        
+        Name = data["slug"].replace("-", " ").title().split()[:3]
+        Name = ' '.join(Name)
+        Description = data["longAd"]
+        Price = data["price"]
+        Ref = data["reference"]
+        Square_meter = data["surface"]
+        address = data["district"]["name"]
+        url = "https://www.orpi.com/annonce-location-" + data["slug"]
+        agence = data["agency"]["name"]
+        phonenumber = data["agency"]["agencyNumber"]
+        created_at = datetime.datetime.now()
+        appart_table = Appartment(name=Name, description=Description, price=Price, ref=Ref, square_meter=Square_meter, address=address, postal_code=None, url=url, agency=agence, phonenumber=phonenumber, created_at=created_at) # Create an instance of Appartement 
+        session.add(appart_table)
+        session.commit()
+        # pictures
+        pictures = data["images"]
+        pictures = json.dumps(pictures)
+        URL_picture = save_picture(pictures=json.loads(pictures), Ref=Ref)
+        URL_picture = json.dumps(URL_picture)
+        table_picture = Pictures(flat_id=appart_table.id, URL_picture=URL_picture)
+        session.add(table_picture)
+        # additional
+        table_additonal_surface = AdditionalSurfaces(flat_id=appart_table.id, Private_parking=None, Cellar=None)
+        session.add(table_additonal_surface)
+        # amenities
+        table_amenties = Amenities(flat_id=appart_table.id, Bathtub=None, Kitchen_sink=None, Washbasin=None, Washing_machine_connection=None, Ventilation_system=None, TV_antenna=None, Shower=None)
+        session.add(table_amenties)
+        # building
+        building_charac_table = BuildingCharacteristics(flat_id=appart_table.id, Year_of_construction=None, Number_of_Floor=None, Digicode=None, Elevator=None, Green_peaces=None, TV_antenna=None, Cleaning_company=None)
+        session.add(building_charac_table)
+        # lease
+        lease_rent_table = LeaseRentCharges(flat_id=appart_table.id, type_of_lease=None, lease_duration=None, rent_charges=None, additional_rent=None, tenant_fess=None, charge_provision=None, check_in_fees=None, security_deposit=None, availability=None)
+        session.add(lease_rent_table)
+        # property
+        propertyCharac_table = PropertyCharacteristics(flat_id=appart_table.id, Floor=None, Total_area=None, Living_area=None, Number_of_rooms=None, Number_of_bedrooms=None, Number_of_bathrooms=None, Hot_water_system=None, Heating_system=None, Double_glazing=None)
+        session.add(propertyCharac_table)
+        session.commit()
+        print("Ajout" + url)
+
 def get_allTables():
     """ Scrap all information of all Flats """
     all_urlFlat = get_allPages() # Call the list of all urls
-    count = 1
+    count = 0
     for urlpage in all_urlFlat[::-1]: # Loop in list of urls
         response = requests.get(urlpage) # Send a GET request to URL and retrieve the page content
         pagesHTML = BeautifulSoup(response.content, "html.parser") # Parse the HTML content
-        get_table_informations(url=urlpage, session=session, pageHTML=pagesHTML) # Function that get information for on flats
+        get_table_appartment(url=urlpage, session=session, pageHTML=pagesHTML) # Function that get information for on flats
         print(f"élement ajouter a la database {count} {urlpage}")
-        count += 1
+        print("--------------------------------")
         session.commit() # Commit the changes to the database
+        api_to_sql_Orpi(count)
+        count += 1
     session.close() # Close the current session
 
 def verify_if_appart_exist():
-    """ delete if a url dosn't exist"""
-    all_url = get_allPages()
+    """ function that check if an appartment in the databases already exist"""
     list_url_404 = []
     count = 0
-    for url in all_url: # check if url is wrong 
-        response = requests.get(url)
+
+    all_appartments = session.query(Appartment).all() # stire the list of all appartment
+    
+    for appartment in all_appartments:
+        url = appartment.url # take the url for each appartment
+        response = requests.get(url) # request to the url
         count += 1
-        print(count)
         print(url)
+        print(count)
         soup = BeautifulSoup(response.content, "html.parser")
-        error = soup.select_one('h1.error-message-title').text() if soup.select_one('h1.error-message-title') else None
-        if error == "Cette annonce n’est plus disponible.":
+        error = soup.select_one('h1.error-message-title').text if soup.select_one('h1.error-message-title') else None # look for the error message
+        if error == "Cette annonce n’est plus disponible.": # if we have an error message append to the list of broken url
             list_url_404.append(url)
-        elif response.status_code in [404, 410]:
+        elif response.status_code in [404, 410]: # if we have an 404 or 410 append to the list of broken url
             list_url_404.append(url)
-    for url404 in list_url_404: # delete all url wrong in the DB
+
+    for url404 in list_url_404: # loop for delete in the DB all appartment who dosen't exist
         print(f"Appartment n'existant plus {url404}")
         session.query(Appartment).filter_by(url=url404).delete()
         session.commit()
-    session.close
+
+    session.close()
+
 
 def add_new_flat():
-    """ add new flat in the database """
+    """ add new flat in the database if a new is add on the website """
     all_url = get_allPages()
     for url in all_url:
         check_url = session.query(Appartment).filter_by(url=url).first()
@@ -235,7 +289,7 @@ def add_new_flat():
             print(url)
             response = requests.get(url) # Send a GET request to URL and retrieve the page content
             pagesHTML = BeautifulSoup(response.content, "html.parser") # Parse the HTML content
-            get_table_informations(url=url, session=session, pageHTML=pagesHTML)
+            get_table_appartment(url=url, session=session, pageHTML=pagesHTML)
             session.commit()
         else:
             pass
@@ -249,10 +303,5 @@ elif argv[1] == "add":
 elif argv[1] == "add_new":
     add_new_flat()
     print("add_new")
-
-"""
-import os
-dir = os.path.dirname(os.path.realpath(__file__))
-filename = os.path.join(dir, 'Scrap_to_Mysql.py')
-print(filename)
-"""
+elif argv[1] == "orpi":
+    api_to_sql_Orpi()
