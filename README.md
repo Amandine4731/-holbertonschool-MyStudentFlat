@@ -1,22 +1,22 @@
-![MyStudentFlat](https://github.com/Amandine4731/holbertonschool-MyStudentFlat/blob/main/Front-end/my_student_flat_MVP/assets/elements/HeaderReadmeLogo.png?raw=true)
+![MyStudentFlat](https://github.com/Amandine4731/holbertonschool-MyStudentFlat/blob/main/Front-End/my_student_flat_MVP/assets/elements/HeaderReadmeLogo.png?raw=true)
 
 
 <div align="center">This application project is part of a end-of-year project at Holberton Actual Digital School in Toulouse.</div>
 
-*****
+****
 
-### ![MyStudentFlat](https://github.com/Amandine4731/holbertonschool-MyStudentFlat/blob/main/Front-end/my_student_flat_MVP/assets/elements/pictoFlat.png?raw=true) ****Are you a student? Looking for an apartment? This application might interest you!****
+### ![MyStudentFlat](https://github.com/Amandine4731/holbertonschool-MyStudentFlat/blob/main/Front-End/my_student_flat_MVP/assets/elements/pictoFlat.png?raw=true) ****Are you a student? Looking for an apartment? This application might interest you!****
 
 My Student Flat is an application mainly intended for the student population of Toulouse. It brings together all the affordable apartments (< 800 €) in the city of Toulouse (31). The goal? To allow all these students to not spend all their time in an intense search for housing.
 
 *****
 
-### ![MyStudentFlat](https://github.com/Amandine4731/holbertonschool-MyStudentFlat/blob/main/Front-end/my_student_flat_MVP/assets/elements/pictoFlat.png?raw=true) ****A project, a team****
+### ![MyStudentFlat](https://github.com/Amandine4731/holbertonschool-MyStudentFlat/blob/main/Front-End/my_student_flat_MVP/assets/elements/pictoFlat.png?raw=true) ****A project, a team****
 This application could not exist without the collaboration of two individuals with complementary skills. Amandine Assenat (20 years old) is developing the front-end part, an obvious choice given her background as a graphic designer. Valentin Melia (23 years old) is responsible for creating his own API, which gathers all the apartments in Toulouse. This synergy is the result of this project.
 
 *****
 
-### ![MyStudentFlat](https://github.com/Amandine4731/holbertonschool-MyStudentFlat/blob/main/Front-end/my_student_flat_MVP/assets/elements/pictoFlat.png?raw=true) ****Strategically chosen technologies used:****
+### ![MyStudentFlat](https://github.com/Amandine4731/holbertonschool-MyStudentFlat/blob/main/Front-End/my_student_flat_MVP/assets/elements/pictoFlat.png?raw=true) ****Strategically chosen technologies used:****
 
 **Front-end**
 
@@ -31,7 +31,7 @@ This application could not exist without the collaboration of two individuals wi
 
 *****
 
-### ![MyStudentFlat](https://github.com/Amandine4731/holbertonschool-MyStudentFlat/blob/main/Front-end/my_student_flat_MVP/assets/elements/pictoFlat.png?raw=true) ****File tree****
+### ![MyStudentFlat](https://github.com/Amandine4731/holbertonschool-MyStudentFlat/blob/main/Front-End/my_student_flat_MVP/assets/elements/pictoFlat.png?raw=true) ****File tree****
 
 - **AUTHORS:**
 - **README.md:**
@@ -74,11 +74,11 @@ This application could not exist without the collaboration of two individuals wi
 
 *****
 
-### ![MyStudentFlat](https://github.com/Amandine4731/holbertonschool-MyStudentFlat/blob/main/Front-end/my_student_flat_MVP/assets/elements/pictoFlat.png?raw=true) ****What does MyStudentFlat look like?****
-![MyStudentFlat](https://raw.githubusercontent.com/Amandine4731/holbertonschool-MyStudentFlat/main/Front-end/my_student_flat_MVP/assets/elements/mockupApplicationTelephone.png?raw=true)
+### ![MyStudentFlat](https://github.com/Amandine4731/holbertonschool-MyStudentFlat/blob/main/Front-End/my_student_flat_MVP/assets/elements/pictoFlat.png?raw=true) ****What does MyStudentFlat look like?****
+![MyStudentFlat](https://github.com/Amandine4731/holbertonschool-MyStudentFlat/blob/main/Front-End/my_student_flat_MVP/assets/elements/mockupApplicationTelephone.png?raw=true)
 
 
-### ![MyStudentFlat](https://github.com/Amandine4731/holbertonschool-MyStudentFlat/blob/main/Front-end/my_student_flat_MVP/assets/elements/pictoFlat.png?raw=true) ****The repository:****
+### ![MyStudentFlat](https://github.com/Amandine4731/holbertonschool-MyStudentFlat/blob/main/Front-End/my_student_flat_MVP/assets/elements/pictoFlat.png?raw=true) ****The repository:****
 ```bash
 $ git clone https://github.com/Amandine4731/holbertonschool-MyStudentFlat.git
 ```
