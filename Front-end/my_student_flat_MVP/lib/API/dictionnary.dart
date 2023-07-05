@@ -6,7 +6,7 @@ import 'dart:convert';
 Future<Map<String, dynamic>> fetchData(int id) async {
   /* Function to fetch data from the server based on an ID */
   final url = Uri.parse(
-      'http://152.228.216.105/appartment/$id'); /* Define the URL for the request */
+      'http://152.228.216.105:5000/appartment/$id'); /* Define the URL for the request */
   var response =
       await http.get(url); /* Send a GET request to the specified URL */
   if (response.statusCode == 200) {

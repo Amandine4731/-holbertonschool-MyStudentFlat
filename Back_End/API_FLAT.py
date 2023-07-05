@@ -1,8 +1,8 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_mysqldb import MySQL
 from flask_cors import CORS, cross_origin
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path="/pictures", static_folder="pictures")
 
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 app.config['JSON_AS_ASCII'] = False
@@ -16,9 +16,23 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 mysql = MySQL(app)
 
 @app.route("/appartments", methods=['GET'], strict_slashes=False)
+@cross_origin()
 def get_all_flats():
     cur = mysql.connection.cursor()
-    cur.execute('''SELECT * FROM appartment''')
+
+    order_param = request.args.get('sort')
+    
+    if order_param and order_param.lower() == 'price_asc': # if order_param exist and order_param equal to price_asc in upper or lowercase
+        cur.execute('''SELECT * FROM appartment ORDER BY price ASC''')
+    elif order_param and order_param.lower() == 'price_desc': # if order_param exist and order_param equal to price_desc in upper or lowercase
+        cur.execute('''SELECT * FROM appartment ORDER BY price DESC''')
+    elif order_param and order_param.lower() == 'surface_asc': # if order_param exist and order_param equal to surface_asc in upper or lowercase
+        cur.execute('''SELECT * FROM appartment ORDER BY square_meter ASC''')
+    elif order_param and order_param.lower() == 'surface_desc': # if order_param exist and order_param equal to surface_desc in upper or lowercase
+        cur.execute('''SELECT * FROM appartment ORDER BY square_meter DESC''')
+    else:
+        cur.execute('''SELECT * FROM appartment ORDER BY id DESC''')
+
     results = cur.fetchall()
     colonne_names = [i[0] for i in cur.description] # Récupérer les noms de colonnes
     flats = [dict(zip(colonne_names, row)) for row in results] # Créer un dictionnaire pour chaque ligne avec les noms de colonnes comme clés
@@ -64,6 +78,9 @@ def get_flat(id):
     'information': informations
     }
     return jsonify(response_data)
+
+
+
 
 def fetch_data(cur, table, flat_id):
     cur.execute(f"SELECT * FROM {table} WHERE flat_id = %s", (flat_id,))
