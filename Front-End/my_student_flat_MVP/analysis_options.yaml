@@ -1,0 +1,14 @@
+# The analysis_options.yaml file configures the analyzer, which statically analyzes Dart code to.
+# This file determines how strict Flutter should be when analyzing your code.
+include: package:flutter_lints/flutter.yaml
+
+linter: # The linter is a tool that allows you to analyze source code and detect errors.
+# improves code quality, readability, maintainability with rules.
+  rules:
+    # The linter will not raise any warnings or errors for violating those rules.
+    prefer_const_constructors: false
+    prefer_final_fields: false
+    use_key_in_widget_constructors: false
+    prefer_const_literals_to_create_immutables: false
+    prefer_const_constructors_in_immutables: false
+    avoid_print: false
