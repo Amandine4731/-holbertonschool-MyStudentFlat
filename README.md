@@ -84,3 +84,5 @@ $ git clone https://github.com/Amandine4731/holbertonschool-MyStudentFlat.git
 ```
 
 *****
+
+LinkedIn : [Amandine Assenat](https://www.linkedin.com/in/amandine-assenat-a90714251/), [Valentin Melia](https://www.linkedin.com/in/valentin-melia-893994150/)
